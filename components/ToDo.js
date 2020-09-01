@@ -3,6 +3,7 @@
 import * as React from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, Alert, SafeAreaView, TextInput, FlatList, ScrollView } from 'react-native';
 import DatePicker from 'react-native-datepicker';
+import { color } from 'react-native-reanimated';
 
 
 function Todo() {
@@ -14,12 +15,12 @@ function Todo() {
     const [endDate, setEndDate] = React.useState(today);
 
     const renderItem = ({ item }) => (
-        <Item item={item.id} title={item.title} startDate={item.startDate} endDate={item.endDate} />
+        <Item id={item.id} title={item.title} startDate={item.startDate} endDate={item.endDate} />
     );
     const Item = ({ title, id, startDate, endDate }) => (
 
-        <View style={styles.view}>
-            <ScrollView style={styles.view}>
+        <View style={{ flex: 3 }}>
+            <ScrollView style={{ flex: 1 }} >
                 <Text style={{ textAlign: 'center' }}>
                     {title} : Başlangıç T.{startDate} Bitiş T.{endDate}
                 </Text>
@@ -29,12 +30,13 @@ function Todo() {
                     }}>
                         <Text style={styles.btnTextDelete} >Sil</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity >
-                        <Text style={styles.btnTextUpdate}>Güncelle</Text>
-                    </TouchableOpacity>
+                <TouchableOpacity >
+                    <Text style={styles.btnTextUpdate}>Güncelle</Text>
+                </TouchableOpacity>
                 </View>
             </ScrollView>
-        </View>
+        </View >
+
     );
     const alertModal = (title, content) => {
         Alert.alert(
@@ -59,7 +61,7 @@ function Todo() {
             alertModal('Gün Sayısı', 'Gün sayısı 30\'dan büyük olamaz');
         }
         else if (textInputText.length > 0) {
-            setId(id + 1)
+            setId(id + 1);
             setTodo([...todo, {
                 title: textInputText.toString(),
                 id: id.toString(),
@@ -135,8 +137,8 @@ function Todo() {
                     onDateChange={(date) => setEndDate(date)}
                 />
             </View>
-            <TouchableOpacity onPress={addOnPress} >
-                <Text style={styles.text}>{textInputText.length > 0 ? 'Ekle' : 'To-Do Boş Olamaz'}</Text>
+            <TouchableOpacity onPress={addOnPress} style={styles.btnAdd} >
+                <Text style={{ textAlign: 'center', color: 'white' }}>{textInputText.length > 0 ? 'Ekle' : 'To-Do Boş Olamaz'}</Text>
             </TouchableOpacity>
             <SafeAreaView>
                 <FlatList
@@ -154,9 +156,10 @@ function Todo() {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
+        flex: 6,
         justifyContent: 'center',
         marginHorizontal: 16,
+        position: 'relative',
     },
     btnTextDelete: {
         textAlign: 'center',
@@ -193,11 +196,19 @@ const styles = StyleSheet.create({
         marginTop: 10,
         backgroundColor: '#D4DBF5',
         borderRadius: 4,
+        justifyContent: 'center',
     },
     title: {
         textAlign: 'center',
         marginVertical: 8,
         color: 'black',
+    },
+    btnAdd: {
+        backgroundColor: '#193441',
+        marginTop: 5,
+        marginBottom: 5,
+        borderWidth: 1,
+        borderRadius: 8,
     },
 });
 export default Todo;
