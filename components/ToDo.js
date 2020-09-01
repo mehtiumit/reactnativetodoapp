@@ -3,7 +3,7 @@
 import * as React from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, Alert, SafeAreaView, TextInput, FlatList, ScrollView } from 'react-native';
 import DatePicker from 'react-native-datepicker';
-import { color } from 'react-native-reanimated';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 
 function Todo() {
@@ -24,15 +24,18 @@ function Todo() {
                 <Text style={{ textAlign: 'center' }}>
                     {title} : Başlangıç T.{startDate} Bitiş T.{endDate}
                 </Text>
-                <View style={{ flexDirection: 'column' }}>
-                    <TouchableOpacity style={styles.btnText} onPress={() => {
-                        setTodo(todo.filter(f => f.id !== id))
+                <View >
+                    <TouchableOpacity style={styles.btnDelete} onPress={() => {
+                        setTodo(todo.filter(f => f.id !== id));
                     }}>
-                        <Text style={styles.btnTextDelete} >Sil</Text>
+                        <View style={styles.btnView}>
+                            <Text style={{ textAlign: 'center', color: 'white', justifyContent: 'flex-start' }}>Sil</Text>
+                            <Icon size={25} name="delete-forever" style={{ color: 'white', marginLeft: 12 }} />
+                        </View>
                     </TouchableOpacity>
-                <TouchableOpacity >
-                    <Text style={styles.btnTextUpdate}>Güncelle</Text>
-                </TouchableOpacity>
+                    <TouchableOpacity >
+                        <Text style={styles.btnTextUpdate}>Güncelle</Text>
+                    </TouchableOpacity>
                 </View>
             </ScrollView>
         </View >
@@ -138,7 +141,10 @@ function Todo() {
                 />
             </View>
             <TouchableOpacity onPress={addOnPress} style={styles.btnAdd} >
-                <Text style={{ textAlign: 'center', color: 'white' }}>{textInputText.length > 0 ? 'Ekle' : 'To-Do Boş Olamaz'}</Text>
+                <View style={styles.btnView}>
+                    <Text style={{ textAlign: 'center', color: 'white', justifyContent: 'flex-start' }}>{textInputText.length > 0 ? 'Ekle' : 'To-Do Boş Olamaz'}</Text>
+                    <Icon size={25} name={textInputText.length > 0 ? 'add-box' : 'warning'} style={[styles.iconStyle]} />
+                </View>
             </TouchableOpacity>
             <SafeAreaView>
                 <FlatList
@@ -147,7 +153,6 @@ function Todo() {
                     keyExtractor={(item) => item.id}
                 />
             </SafeAreaView>
-
         </SafeAreaView>
     );
 }
@@ -209,6 +214,18 @@ const styles = StyleSheet.create({
         marginBottom: 5,
         borderWidth: 1,
         borderRadius: 8,
+    },
+    iconStyle: {
+        color: 'white',
+        marginLeft: 5,
+    },
+    btnView: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        alignSelf: 'center',
+    },
+    btnDelete: {
+        backgroundColor: '#6F767A',
     },
 });
 export default Todo;
