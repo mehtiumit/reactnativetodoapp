@@ -19,9 +19,9 @@ function Todo() {
     );
     const Item = ({ title, id, startDate, endDate }) => (
 
-        <View style={{ flex: 3 }}>
+        <View style={styles.todoContainer}>
             <ScrollView style={{ flex: 1 }} >
-                <Text style={{ textAlign: 'center' }}>
+                <Text style={styles.todoInfo}>
                     {title} : Başlangıç T.{startDate} Bitiş T.{endDate}
                 </Text>
                 <View >
@@ -166,6 +166,12 @@ const styles = StyleSheet.create({
         marginHorizontal: 16,
         position: 'relative',
     },
+    todoContainer: {
+        marginTop: 5,
+        borderWidth: 2,
+        borderColor: '#91AA9D',
+        borderRadius: 5,
+    },
     btnTextDelete: {
         textAlign: 'center',
         color: 'black',
@@ -226,6 +232,10 @@ const styles = StyleSheet.create({
     },
     btnDelete: {
         backgroundColor: '#6F767A',
+    },
+    todoInfo: {
+        backgroundColor: '#FCFFF5',
+        textAlign: 'center',
     },
 });
 export default Todo;
