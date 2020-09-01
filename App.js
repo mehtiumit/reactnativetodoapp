@@ -2,15 +2,9 @@ import * as React from 'react';
 import {Text, View} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {createStackNavigator} from '@react-navigation/stack';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-
-function HomeScreen() {
-  return (
-    <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-      <Text>Home!</Text>
-    </View>
-  );
-}
+import Todo from './components/ToDo';
 
 function SettingsScreen() {
   return (
@@ -19,7 +13,14 @@ function SettingsScreen() {
     </View>
   );
 }
-
+const TodoTab = createStackNavigator();
+function TodoStack() {
+  return (
+    <TodoTab.Navigator>
+      <TodoTab.Screen name="Todo" component={Todo} />
+    </TodoTab.Navigator>
+  );
+}
 const Tab = createBottomTabNavigator();
 
 export default function App() {
@@ -36,7 +37,7 @@ export default function App() {
         }}>
         <Tab.Screen
           name="Home"
-          component={HomeScreen}
+          component={TodoStack}
           options={{tabBarIcon: () => <AntDesign size={20} name="home" />}}
         />
 
