@@ -1,6 +1,6 @@
 ## Simple react native todo app with context
 
- This project can run only android because i dont have a mac.
+ This project can run only android because i dont have a mac.(if you try on mac i cannot add ios icon you have to add icons by yourself)
 
 I made this project because i wondered how to react native works and context api.
 
