@@ -1,44 +1,13 @@
-import * as React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { createStackNavigator } from '@react-navigation/stack';
+import React, {useReducer} from 'react';
+import {NavigationContainer} from '@react-navigation/native';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {createStackNavigator} from '@react-navigation/stack';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Todo from './components/ToDo';
 import Done from './components/Done';
-
-
+import {reducer, initialState} from './store/todoreducer';
 
 export const TodoContext = React.createContext();
-const initialState = {
-  todos: [{
-
-  }]
-};
-const reducer = (state = initialState, action) => {
-
-  switch (action.type) {
-    case 'AddTodo':
-      console.log("Action" + action);
-      return {
-        ...state,
-        todos: [...state.todos, action.payload]
-      }
-    case 'DeleteTodo':
-      return {
-        ...state,
-        todos: state.todos.filter(f => f.id !== action.payload)
-      }
-    case 'UpdateTodo':
-      return {
-        ...state,
-        todos: state.todos.map(f => f.id == action.payload ? f.isComplete = !f.isComplete : f.isComplete)
-      }
-    default:
-      return state;
-  }
-}
-
-
 const TodoTab = createStackNavigator();
 function TodoStack() {
   return (
@@ -50,9 +19,8 @@ function TodoStack() {
 const Tab = createBottomTabNavigator();
 
 export default function App() {
-
   return (
-    <TodoContext.Provider value={React.useReducer(reducer, initialState)}>
+    <TodoContext.Provider value={useReducer(reducer, initialState)}>
       <NavigationContainer>
         <Tab.Navigator
           tabBarOptions={{
@@ -66,12 +34,14 @@ export default function App() {
           <Tab.Screen
             name="Home"
             component={TodoStack}
-            options={{ tabBarIcon: () => <AntDesign size={20} name="home" /> }}
+            options={{tabBarIcon: () => <AntDesign size={20} name="home" />}}
           />
           <Tab.Screen
             name="Yapılanlar"
             component={Done}
-            options={{ tabBarIcon: () => <AntDesign size={20} name="carryout" /> }}
+            options={{
+              tabBarIcon: () => <AntDesign size={20} name="carryout" />,
+            }}
           />
         </Tab.Navigator>
       </NavigationContainer>
