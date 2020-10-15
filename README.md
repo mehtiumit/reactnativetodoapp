@@ -8,7 +8,11 @@ I made this project because i wondered how to react native works and context api
 
 ## How to use 
 Step 1-) git clone https://github.com/mehtiumit/reactnativetodoapp then locate the folder.
+
+
 Step 2-) Open terminal and write npx-react-native then enter
+
+
 Step 3-) Open another terminal and write npx-react-native run-android
 
 if you havent install react-native yet goto https://reactnative.dev/docs/environment-setup
