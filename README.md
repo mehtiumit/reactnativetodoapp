@@ -15,7 +15,7 @@ Step 2-) Open terminal and write npx-react-native then enter
 
 Step 3-) Open another terminal and write npx-react-native run-android
 
-if you havent install react-native yet goto https://reactnative.dev/docs/environment-setup
+if you haven't install react-native yet goto https://reactnative.dev/docs/environment-setup
 
 <br/>
 
