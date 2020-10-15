@@ -19,5 +19,5 @@ if you haven't install react-native yet goto https://reactnative.dev/docs/enviro
 
 <br/>
 
-[Imgur](https://i.imgur.com/an0gWHL.gifv)
 
+![Alt Text](https://i.imgur.com/an0gWHL.gifv)
