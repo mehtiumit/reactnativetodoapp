@@ -20,4 +20,4 @@ if you haven't install react-native yet goto https://reactnative.dev/docs/enviro
 <br/>
 
 
-![Alt Text](https://i.imgur.com/an0gWHL.gifv)
+![Here is the app](https://i.imgur.com/an0gWHL.gif)
