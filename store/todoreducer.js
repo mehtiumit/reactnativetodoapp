@@ -2,6 +2,7 @@ import * as actionTypes from './actionTypes';
 
 export const initialState = {
   todos: [],
+  doneTodos: [],
 };
 export const reducer = (state = initialState, action) => {
   switch (action.type) {

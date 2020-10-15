@@ -3,28 +3,33 @@ import {Fragment} from 'react';
 import {StyleSheet, FlatList, ScrollView, View, Text} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {TodoContext} from '../App';
+import Item from './FlatListItems/Item';
 
+const renderItem = ({item}) => (
+  <Fragment>
+    {item.isComplete ? (
+      <Item
+        id={item.id}
+        title={item.title}
+        startDate={item.startDate}
+        endDate={item.endDate}
+        isComplete={item.isComplete}
+      />
+    ) : null}
+  </Fragment>
+);
 function Done() {
   return (
     <TodoContext.Consumer>
       {(value) => {
         const {todos} = value[0];
-        const dispatch = value[1];
         console.log(todos);
         return (
           <SafeAreaView style={styles.container}>
             <FlatList
               data={todos}
               keyExtractor={(item) => item.id.toString()}
-              renderItem={({item}) =>
-                item.isComplete ? (
-                  <Fragment>
-                    <Text>{item.title}</Text>
-                    <Text>{item.startDate}</Text>
-                    <Text>{item.endDate}</Text>
-                  </Fragment>
-                ) : null
-              }
+              renderItem={renderItem}
             />
           </SafeAreaView>
         );

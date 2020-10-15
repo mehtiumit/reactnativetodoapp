@@ -3,6 +3,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {createStackNavigator} from '@react-navigation/stack';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 import Todo from './components/ToDo';
 import Done from './components/Done';
 import {reducer, initialState} from './store/todoreducer';
@@ -32,12 +33,12 @@ export default function App() {
             },
           }}>
           <Tab.Screen
-            name="Home"
+            name="Add Todo"
             component={TodoStack}
-            options={{tabBarIcon: () => <AntDesign size={20} name="home" />}}
+            options={{tabBarIcon: () => <Icon size={20} name="add-box" />}}
           />
           <Tab.Screen
-            name="Yapılanlar"
+            name="Finished"
             component={Done}
             options={{
               tabBarIcon: () => <AntDesign size={20} name="carryout" />,

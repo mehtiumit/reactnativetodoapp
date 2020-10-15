@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */ /* eslint-disable prettier/prettier */
-import React from 'react';
+import React, {Fragment} from 'react';
 import {
   StyleSheet,
   View,
@@ -9,12 +9,12 @@ import {
   SafeAreaView,
   TextInput,
   FlatList,
-  ScrollView,
 } from 'react-native';
 import DatePicker from 'react-native-datepicker';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {TodoContext} from '../App';
 import * as actionTypes from '../store/actionTypes';
+import Item from './FlatListItems/Item';
 
 const alertModal = (title, content) => {
   Alert.alert(title, content, [{text: 'OK'}], {
@@ -35,64 +35,21 @@ function Todo() {
   const [id, setId] = React.useState(0);
   const [startDate, setStartDate] = React.useState(today);
   const [endDate, setEndDate] = React.useState(today);
+
   const renderItem = ({item}) => (
-    <Item
-      id={item.id}
-      title={item.title}
-      startDate={item.startDate}
-      endDate={item.endDate}
-    />
+    <Fragment>
+      {item.isComplete ? null : (
+        <Item
+          id={item.id}
+          title={item.title}
+          startDate={item.startDate}
+          endDate={item.endDate}
+          isComplete={item.isComplete}
+        />
+      )}
+    </Fragment>
   );
-  const Item = ({title, id, startDate, endDate}) => (
-    <TodoContext.Consumer>
-      {(value) => {
-        const dispatch = value[1];
-        return (
-          <View style={styles.todoContainer}>
-            <Text style={styles.todoInfo}>
-              id:{id} {title} : Başlangıç T.{startDate} Bitiş T.{endDate}
-            </Text>
-            <View>
-              <TouchableOpacity
-                style={styles.btnDelete}
-                onPress={() => {
-                  dispatch({
-                    type: actionTypes.DELETE_TODO,
-                    payload: id,
-                  });
-                }}>
-                <View style={styles.btnView}>
-                  <Text style={styles.iconAlign}>Sil</Text>
-                  <Icon
-                    size={25}
-                    name="delete-forever"
-                    style={{color: 'white', marginLeft: 12}}
-                  />
-                </View>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.btnDoneColor}
-                onPress={() => {
-                  dispatch({
-                    type: actionTypes.UPDATE_TODO,
-                    payload: id,
-                  });
-                }}>
-                <View style={styles.btnDone}>
-                  <Text style={styles.iconAlign}>Tamamlandı</Text>
-                  <Icon
-                    size={25}
-                    name="done"
-                    style={{color: 'white', marginLeft: 12}}
-                  />
-                </View>
-              </TouchableOpacity>
-            </View>
-          </View>
-        );
-      }}
-    </TodoContext.Consumer>
-  );
+
   return (
     <TodoContext.Consumer>
       {(value) => {
@@ -108,7 +65,7 @@ function Todo() {
                 value={textInputText}
               />
               <View style={styles.date}>
-                <Text>Başlangıç Tarihini Seçiniz:</Text>
+                <Text>Start Date:</Text>
                 <DatePicker
                   date={startDate}
                   format="YYYY-MM-DD"
@@ -123,7 +80,7 @@ function Todo() {
                       marginLeft: 0,
                     },
                     dateInput: {
-                      marginLeft: 40,
+                      marginLeft: 42,
                       borderColor: '#021E73',
                     },
                     datePicker: {
@@ -134,7 +91,7 @@ function Todo() {
                 />
               </View>
               <View style={styles.date}>
-                <Text>Başlangıç Tarihini Seçiniz:</Text>
+                <Text>End Date:</Text>
                 <DatePicker
                   date={endDate}
                   format="YYYY-MM-DD"
@@ -146,10 +103,10 @@ function Todo() {
                       position: 'absolute',
                       left: 0,
                       top: 4,
-                      marginLeft: 0,
+                      marginLeft: 2,
                     },
                     dateInput: {
-                      marginLeft: 40,
+                      marginLeft: 46,
                       borderColor: '#021E73',
                     },
                     datePicker: {
@@ -162,7 +119,7 @@ function Todo() {
               <TouchableOpacity
                 onPress={() => {
                   if (dateChecks(endDate, startDate)) {
-                    alertModal('Gün Sayısı', "Gün sayısı 30'dan büyük olamaz");
+                    alertModal('Day', 'Day cannot be grater than 30 days');
                   } else if (textInputText.length > 0) {
                     setId(id + 1);
                     dispatch({
@@ -176,7 +133,7 @@ function Todo() {
                       },
                     });
                   } else {
-                    alertModal('Hata', 'Todo Kısmı Boş Olamaz');
+                    alertModal('Error', 'To-Do cannot be empty');
                   }
                 }}
                 style={styles.btnAdd}>
@@ -187,7 +144,7 @@ function Todo() {
                       color: 'white',
                       justifyContent: 'flex-start',
                     }}>
-                    {textInputText.length > 0 ? 'Ekle' : 'To-Do Boş Olamaz'}
+                    {textInputText.length > 0 ? 'Add' : 'To-Do cannot be empty'}
                   </Text>
                   <Icon
                     size={25}
@@ -197,11 +154,13 @@ function Todo() {
                 </View>
               </TouchableOpacity>
             </View>
-            <FlatList
-              data={todos}
-              renderItem={renderItem}
-              keyExtractor={(item) => item.id.toString()}
-            />
+            {todos.isComplete ? null : (
+              <FlatList
+                data={todos}
+                renderItem={renderItem}
+                keyExtractor={(item) => item.id.toString()}
+              />
+            )}
           </SafeAreaView>
         );
       }}
@@ -213,12 +172,6 @@ const styles = StyleSheet.create({
   container: {
     justifyContent: 'center',
     marginHorizontal: 16,
-  },
-  todoContainer: {
-    marginTop: 5,
-    borderWidth: 2,
-    borderColor: '#91AA9D',
-    borderRadius: 5,
   },
   btnTextDelete: {
     textAlign: 'center',
@@ -277,21 +230,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     alignSelf: 'center',
-  },
-  btnDone: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    alignSelf: 'center',
-  },
-  btnDelete: {
-    backgroundColor: '#6F767A',
-  },
-  todoInfo: {
-    backgroundColor: '#FCFFF5',
-    textAlign: 'center',
-  },
-  btnDoneColor: {
-    backgroundColor: '#958976',
   },
   iconAlign: {
     textAlign: 'center',
